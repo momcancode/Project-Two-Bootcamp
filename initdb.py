@@ -102,7 +102,11 @@ final_scraped_df = final_scraped_df.where(final_scraped_df.notnull(), None)
 # Initialize PyMongo to work with MongoDBs
 # conn = 'mongodb://localhost:27017'
 
-conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
+# url = 'mongodb://localhost:27017'
+url = "mongodb+srv://coolcat:coolcat2020@cluster0.p8o9k.mongodb.net/<dbname>?retryWrites=true&w=majority"
+
+# setup mongo connection
+conn = os.environ.get('DATABASE_URL', '') or url
 client = pymongo.MongoClient(conn)
 
 # Define database and collections

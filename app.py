@@ -7,8 +7,16 @@ import os
 app = Flask(__name__)
 
 
+# example
+# client = pymongo.MongoClient("mongodb+srv://coolcat:<password>@cluster0.p8o9k.mongodb.net/<dbname>?retryWrites=true&w=majority")
+# db = client.test
+
+
+# url = 'mongodb://localhost:27017'
+url = "mongodb+srv://coolcat:coolcat2020@cluster0.p8o9k.mongodb.net/<dbname>?retryWrites=true&w=majority"
+
 # setup mongo connection
-conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
+conn = os.environ.get('DATABASE_URL', '') or url
 client = pymongo.MongoClient(conn)
 
 # connect to mongo db and collections
