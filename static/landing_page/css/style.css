@@ -1,0 +1,10 @@
+body {
+  padding: 20px 120px 20px 120px;
+}
+
+#map {
+  position: relative;
+  border-radius: 2px;
+  height: 700px;
+  width: 100%;  /* This means "100% of the width of its container", the .col-md-8 */
+}
