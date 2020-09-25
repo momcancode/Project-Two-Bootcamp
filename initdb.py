@@ -8,6 +8,7 @@ import os
 
 
 # ## Extract Victorian Biodiversity Atlas (VBA) fauna data
+
 # Read just the column names in fauna data csv
 col_names = pd.read_csv("data/VBA_2015_2020.csv", nrows = 0).columns
 
@@ -54,7 +55,6 @@ fauna_df = fauna_data.rename(columns={
     "LONG_DD94": "long",
     "LAT_DD94": "lat"})
 
-
 # Reorder the columns
 fauna_df = fauna_df[["record_id", "survey_id", "site_id", "project_id", "taxon_id", "taxon_type"
                      ,"comm_name", "sci_name", "totalcount", "location_desc", "long", "lat"
@@ -72,7 +72,6 @@ species = scraped_df["animal_name"].unique().tolist()
 
 # Filter the fauna data with the species of interest
 short_fauna_df = fauna_df[fauna_df["comm_name"].isin(species)]
-
 
 # Filter out the records with total count of 0 and remove end_year, end_date, end_mth, start_year, start_mth columns
 final_fauna_df = short_fauna_df[short_fauna_df.totalcount > 0].drop([
@@ -99,15 +98,10 @@ final_scraped_df = final_scraped_df.where(final_scraped_df.notnull(), None)
 
 # ## Load
 
-# Initialize PyMongo to work with MongoDBs
-# conn = 'mongodb://localhost:27017'
+# Setup connection to MongoDB database remotely on MongoDB Atlas or locally
+conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
 
-# url = 'mongodb://localhost:27017'
-# url = "mongodb+srv://coolcat:coolcat2020@cluster0.p8o9k.mongodb.net/<dbname>?retryWrites=true&w=majority"
-
-# setup mongo connection
-# conn = os.environ.get('DATABASE_URL', '') or url
-conn = os.environ.get('DATABASE_URL', '')
+# Initialize PyMongo to work with MongoDBs. 
 client = pymongo.MongoClient(conn)
 
 # Define database and collections
