@@ -7,19 +7,12 @@ import os
 app = Flask(__name__)
 
 
-# example
-# client = pymongo.MongoClient("mongodb+srv://coolcat:<password>@cluster0.p8o9k.mongodb.net/<dbname>?retryWrites=true&w=majority")
-# db = client.test
+# Setup connection to MongoDB database remotely on MongoDB Atlas or locally
+conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
 
-
-# url = 'mongodb://localhost:27017'
-# url = "mongodb+srv://coolcat:coolcat2020@cluster0.p8o9k.mongodb.net/<dbname>?retryWrites=true&w=majority"
-
-# setup mongo connection
-# conn = os.environ.get('DATABASE_URL', '') or url
-
-conn = os.environ.get('DATABASE_URL', '')
+# Initialize PyMongo to work with MongoDBs. 
 client = pymongo.MongoClient(conn)
+
 
 # connect to mongo db and collections
 db = client.animal_visual_db
@@ -82,7 +75,8 @@ def table():
 # Add api route to get the vba fauna data aggregated by animal names
 @app.route("/api/v1.0/aggregation")
 def aggregation():
-		# Aggregate total sightings by each animal (represented in common names, science names, taxon ids and taxon types) over 5 years
+		# Aggregate total sightings by each animal (represented in common names,
+		# science names, taxon ids and taxon types) over 5 years
 		metadata = list(
 			vba_fauna.aggregate(
 				[
@@ -120,21 +114,21 @@ def aggregation():
 		sightings_by_month = list(
 			vba_fauna.aggregate([
 				{
-						"$group": {
-								"_id": {
-										"animal_name": "$comm_name",
-										"year_month": "$year_month"
-								},
-								"total_sightings": { "$sum": "$totalcount" }
-						}
+					"$group": {
+							"_id": {
+									"animal_name": "$comm_name",
+									"year_month": "$year_month"
+							},
+							"total_sightings": { "$sum": "$totalcount" }
+					}
 				}
 			]))
 
 		# Add an aggregation dictionary
 		aggregation_dict = {
-			"metadata": metadata,
-			"records": records_by_animal,
-			"sightings_by_month": sightings_by_month
+				"metadata": metadata,
+				"records": records_by_animal,
+				"sightings_by_month": sightings_by_month
 		}
 
 		return jsonify(aggregation_dict)
