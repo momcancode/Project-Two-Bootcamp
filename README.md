@@ -27,6 +27,24 @@ Our [interactive map](https://cool-cats-project-two.herokuapp.com/) is designed 
 
     Please refer to our webscraping work [here](database/extract_webscraped_fauna_image.ipynb).
 
+## What did we do?
+
+* Use IPython Jupyter notebook to extract, analyse and transform data
+
+* Use Jupyter Notebook, BeautifulSoup, Pandas, and Splinter to scrape animal images and information
+
+* Back end: Python Flask-powered RESTful API
+
+* Front end: HTML, CSS (with Bootstrap), Javascript
+    
+    * Mapping: Mapbox and Leaflet
+
+    * Dashboard: Plotly
+
+* Database: MongoDB. Cloud database: MongoDB Atlas
+
+* Deployment: Heroku
+
 ## An overview of the web pages
 
 ![Map](presentation/screenshots/map.png)
